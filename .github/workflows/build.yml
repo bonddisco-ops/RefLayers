@@ -1,0 +1,24 @@
+name: Build Windows VST3
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build -A x64
+
+      - name: Build
+        run: cmake --build build --config Release --target RefLayers_VST3 RefLayers_Standalone
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RefLayers-Windows
+          path: |
+            build/RefLayers_artefacts/Release/VST3/
+            build/RefLayers_artefacts/Release/Standalone/RefLayers.exe
