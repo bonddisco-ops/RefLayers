@@ -11,9 +11,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Configure
-       run: cmake -S RefLayers -B build -A x64
+        shell: bash
+        run: |
+          if [ -f CMakeLists.txt ]; then SRC=.; else SRC=RefLayers; fi
+          cmake -S "$SRC" -B build -A x64
 
-        - name: Build
+      - name: Build
         run: cmake --build build --config Release --target RefLayers_VST3 RefLayers_Standalone
 
       - uses: actions/upload-artifact@v4
